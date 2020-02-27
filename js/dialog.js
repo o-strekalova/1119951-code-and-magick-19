@@ -1,8 +1,6 @@
 'use strict';
 
 (function () {
-  var WIZARD_COAT_COLOR = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
-  var WIZARD_EYES_COLOR = ['black', 'red', 'blue', 'yellow', 'green'];
   var WIZARD_FIREBALL_COLOR = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
 
   var setup = document.querySelector('.setup');
@@ -24,6 +22,8 @@
     setup.style.top = setupTop;
     setup.style.left = setupLeft;
     document.removeEventListener('keydown', onPopupEscPress);
+    setupClose.removeEventListener('keydown', onCloseEnterPress);
+    setupClose.removeEventListener('click', closePopup);
   };
 
   var onPopupEscPress = function (evt) {
@@ -32,33 +32,31 @@
     }
   };
 
-  var openPopup = function () {
-    setup.classList.remove('hidden');
-    document.addEventListener('keydown', onPopupEscPress);
-    window.colorize(wizardCoat, WIZARD_COAT_COLOR, coatColorInput);
-    window.colorize(wizardEyes, WIZARD_EYES_COLOR, eyesColorInput);
-    window.colorize(wizardFireball, WIZARD_FIREBALL_COLOR, fireballColorInput);
-  };
-
-  setupOpen.addEventListener('click', function () {
-    openPopup();
-  });
-
-  setupOpen.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === 13) {
-      openPopup();
-    }
-  });
-
-  setupClose.addEventListener('click', function () {
-    closePopup();
-  });
-
-  setupClose.addEventListener('keydown', function (evt) {
+  var onCloseEnterPress = function (evt) {
     if (evt.keyCode === 13) {
       closePopup();
     }
-  });
+  };
+
+  var onOpenEnterPress = function (evt) {
+    if (evt.keyCode === 13) {
+      openPopup();
+    }
+  };
+
+  var openPopup = function () {
+    setup.classList.remove('hidden');
+    window.colorize(wizardCoat, window.WIZARD_COAT_COLOR, coatColorInput);
+    window.colorize(wizardEyes, window.WIZARD_EYES_COLOR, eyesColorInput);
+    window.colorize(wizardFireball, WIZARD_FIREBALL_COLOR, fireballColorInput);
+
+    document.addEventListener('keydown', onPopupEscPress);
+    setupClose.addEventListener('click', closePopup);
+    setupClose.addEventListener('keydown', onCloseEnterPress);
+  };
+
+  setupOpen.addEventListener('click', openPopup);
+  setupOpen.addEventListener('keydown', onOpenEnterPress);
 
   upload.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
