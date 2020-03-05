@@ -16,6 +16,35 @@
   var eyesColorInput = document.getElementById('eyes-color');
   var wizardFireball = setup.querySelector('.setup-fireball-wrap');
   var fireballColorInput = wizardFireball.querySelector('input');
+  var form = document.querySelector('.setup-wizard-form');
+
+  var colorize = function (element, colors, input) {
+    element.addEventListener('click', function () {
+      var color = window.random(colors);
+      if (element.tagName.toLowerCase() === 'div') {
+        element.style.backgroundColor = color;
+      } else {
+        element.style.fill = color;
+      }
+      input.value = color;
+    });
+  };
+
+  var onSuccess = function () {
+    closePopup();
+  };
+
+  var onError = function (errorMessage) {
+    var node = document.createElement('div');
+    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
+    node.style.position = 'absolute';
+    node.style.left = 0;
+    node.style.right = 0;
+    node.style.fontSize = '30px';
+
+    node.textContent = errorMessage;
+    document.body.insertAdjacentElement('afterbegin', node);
+  };
 
   var closePopup = function () {
     setup.classList.add('hidden');
@@ -46,13 +75,17 @@
 
   var openPopup = function () {
     setup.classList.remove('hidden');
-    window.colorize(wizardCoat, window.WIZARD_COAT_COLOR, coatColorInput);
-    window.colorize(wizardEyes, window.WIZARD_EYES_COLOR, eyesColorInput);
-    window.colorize(wizardFireball, WIZARD_FIREBALL_COLOR, fireballColorInput);
+    colorize(wizardCoat, window.WIZARD_COAT_COLOR, coatColorInput);
+    colorize(wizardEyes, window.WIZARD_EYES_COLOR, eyesColorInput);
+    colorize(wizardFireball, WIZARD_FIREBALL_COLOR, fireballColorInput);
 
     document.addEventListener('keydown', onPopupEscPress);
     setupClose.addEventListener('click', closePopup);
     setupClose.addEventListener('keydown', onCloseEnterPress);
+    form.addEventListener('submit', function (evt) {
+      evt.preventDefault();
+      window.save(new FormData(form), onSuccess, onError);
+    });
   };
 
   setupOpen.addEventListener('click', openPopup);
