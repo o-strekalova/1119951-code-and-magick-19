@@ -19,26 +19,13 @@
 
   var onSuccess = function (wizards) {
     var fragment = document.createDocumentFragment();
-
     for (var i = 0; i < MAX_SIMILAR_WIZARD_COUNT; i++) {
-      fragment.appendChild(renderWizard(wizards[i]));
+      var wizard = window.random(wizards);
+      fragment.appendChild(renderWizard(wizard));
     }
     similarListElement.appendChild(fragment);
-
     setup.querySelector('.setup-similar').classList.remove('hidden');
   };
 
-  var onError = function (errorMessage) {
-    var node = document.createElement('div');
-    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
-    node.style.position = 'absolute';
-    node.style.left = 0;
-    node.style.right = 0;
-    node.style.fontSize = '30px';
-
-    node.textContent = errorMessage;
-    document.body.insertAdjacentElement('afterbegin', node);
-  };
-
-  window.load(onSuccess, onError);
+  window.load(onSuccess, window.onError);
 })();

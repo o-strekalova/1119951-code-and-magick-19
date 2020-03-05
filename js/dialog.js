@@ -2,6 +2,8 @@
 
 (function () {
   var WIZARD_FIREBALL_COLOR = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
+  var WIZARD_COAT_COLOR = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
+  var WIZARD_EYES_COLOR = ['black', 'red', 'blue', 'yellow', 'green'];
 
   var setup = document.querySelector('.setup');
   var setupTop = setup.style.top;
@@ -28,22 +30,6 @@
       }
       input.value = color;
     });
-  };
-
-  var onSuccess = function () {
-    closePopup();
-  };
-
-  var onError = function (errorMessage) {
-    var node = document.createElement('div');
-    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
-    node.style.position = 'absolute';
-    node.style.left = 0;
-    node.style.right = 0;
-    node.style.fontSize = '30px';
-
-    node.textContent = errorMessage;
-    document.body.insertAdjacentElement('afterbegin', node);
   };
 
   var closePopup = function () {
@@ -73,19 +59,22 @@
     }
   };
 
+  var onSubmit = function (evt) {
+    evt.preventDefault();
+    window.save(new FormData(form), closePopup, window.onError);
+    form.removeEventListener('submit', onSubmit);
+  };
+
   var openPopup = function () {
     setup.classList.remove('hidden');
-    colorize(wizardCoat, window.WIZARD_COAT_COLOR, coatColorInput);
-    colorize(wizardEyes, window.WIZARD_EYES_COLOR, eyesColorInput);
+    colorize(wizardCoat, WIZARD_COAT_COLOR, coatColorInput);
+    colorize(wizardEyes, WIZARD_EYES_COLOR, eyesColorInput);
     colorize(wizardFireball, WIZARD_FIREBALL_COLOR, fireballColorInput);
 
     document.addEventListener('keydown', onPopupEscPress);
     setupClose.addEventListener('click', closePopup);
     setupClose.addEventListener('keydown', onCloseEnterPress);
-    form.addEventListener('submit', function (evt) {
-      evt.preventDefault();
-      window.save(new FormData(form), onSuccess, onError);
-    });
+    form.addEventListener('submit', onSubmit);
   };
 
   setupOpen.addEventListener('click', openPopup);
