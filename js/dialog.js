@@ -2,6 +2,8 @@
 
 (function () {
   var WIZARD_FIREBALL_COLOR = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
+  var WIZARD_COAT_COLOR = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
+  var WIZARD_EYES_COLOR = ['black', 'red', 'blue', 'yellow', 'green'];
 
   var setup = document.querySelector('.setup');
   var setupTop = setup.style.top;
@@ -16,6 +18,19 @@
   var eyesColorInput = document.getElementById('eyes-color');
   var wizardFireball = setup.querySelector('.setup-fireball-wrap');
   var fireballColorInput = wizardFireball.querySelector('input');
+  var form = document.querySelector('.setup-wizard-form');
+
+  var colorize = function (element, colors, input) {
+    element.addEventListener('click', function () {
+      var color = window.random(colors);
+      if (element.tagName.toLowerCase() === 'div') {
+        element.style.backgroundColor = color;
+      } else {
+        element.style.fill = color;
+      }
+      input.value = color;
+    });
+  };
 
   var closePopup = function () {
     setup.classList.add('hidden');
@@ -44,15 +59,22 @@
     }
   };
 
+  var onSubmit = function (evt) {
+    evt.preventDefault();
+    window.save(new FormData(form), closePopup, window.onError);
+    form.removeEventListener('submit', onSubmit);
+  };
+
   var openPopup = function () {
     setup.classList.remove('hidden');
-    window.colorize(wizardCoat, window.WIZARD_COAT_COLOR, coatColorInput);
-    window.colorize(wizardEyes, window.WIZARD_EYES_COLOR, eyesColorInput);
-    window.colorize(wizardFireball, WIZARD_FIREBALL_COLOR, fireballColorInput);
+    colorize(wizardCoat, WIZARD_COAT_COLOR, coatColorInput);
+    colorize(wizardEyes, WIZARD_EYES_COLOR, eyesColorInput);
+    colorize(wizardFireball, WIZARD_FIREBALL_COLOR, fireballColorInput);
 
     document.addEventListener('keydown', onPopupEscPress);
     setupClose.addEventListener('click', closePopup);
     setupClose.addEventListener('keydown', onCloseEnterPress);
+    form.addEventListener('submit', onSubmit);
   };
 
   setupOpen.addEventListener('click', openPopup);
