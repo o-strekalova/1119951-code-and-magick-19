@@ -1,9 +1,7 @@
 'use strict';
 
 (function () {
-  var WIZARD_FIREBALL_COLOR = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
-  var WIZARD_COAT_COLOR = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
-  var WIZARD_EYES_COLOR = ['black', 'red', 'blue', 'yellow', 'green'];
+  var WIZARD_FIREBALL_COLORS = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
 
   var setup = document.querySelector('.setup');
   var setupTop = setup.style.top;
@@ -67,9 +65,9 @@
 
   var openPopup = function () {
     setup.classList.remove('hidden');
-    colorize(wizardCoat, WIZARD_COAT_COLOR, coatColorInput);
-    colorize(wizardEyes, WIZARD_EYES_COLOR, eyesColorInput);
-    colorize(wizardFireball, WIZARD_FIREBALL_COLOR, fireballColorInput);
+    colorize(wizardCoat, window.WIZARD_COAT_COLORS, coatColorInput);
+    colorize(wizardEyes, window.WIZARD_EYES_COLORS, eyesColorInput);
+    colorize(wizardFireball, WIZARD_FIREBALL_COLORS, fireballColorInput);
 
     document.addEventListener('keydown', onPopupEscPress);
     setupClose.addEventListener('click', closePopup);
