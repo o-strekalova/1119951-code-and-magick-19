@@ -1,8 +1,8 @@
 'use strict';
 
 (function () {
-  var coatColor;
-  var eyesColor;
+  var coatColor = window.wizardCoat.style.fill;
+  var eyesColor = window.wizardEyes.style.backgroundColor;
   window.wizards = [];
 
   var getRank = function (wizard) {
@@ -17,23 +17,25 @@
   };
 
   var updateWizards = function () {
-    window.render(window.wizards.slice().
-      sort(function (left, right) {
-        var rankDiff = getRank(right) - getRank(left);
-        if (rankDiff === 0) {
-          rankDiff = window.wizards.indexOf(left) - window.wizards.indexOf(right);
-        }
-        return rankDiff;
-      }));
+    var array = window.wizards.slice().sort(function (left, right) {
+      var rankDiff = getRank(right) - getRank(left);
+      if (rankDiff === 0) {
+        rankDiff = window.wizards.indexOf(left) - window.wizards.indexOf(right);
+      }
+      return rankDiff;
+    });
+    window.render(array);
   };
 
   window.wizard.onEyesChange = window.debounce(function (color) {
     eyesColor = color;
+    coatColor = window.wizardCoat.style.fill;
     updateWizards();
   });
 
   window.wizard.onCoatChange = window.debounce(function (color) {
     coatColor = color;
+    eyesColor = window.wizardEyes.style.backgroundColor;
     updateWizards();
   });
 

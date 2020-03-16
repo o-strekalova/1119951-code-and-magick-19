@@ -5,7 +5,11 @@
   window.WIZARD_EYES_COLORS = ['black', 'red', 'blue', 'yellow', 'green'];
   window.URL_FOR_LOAD = 'https://js.dump.academy/code-and-magick/data';
 
-  window.random = function (array) {
+  window.setup = document.querySelector('.setup');
+  window.wizardCoat = window.setup.querySelector('.setup-wizard .wizard-coat');
+  window.wizardEyes = window.setup.querySelector('.setup-wizard .wizard-eyes');
+
+  window.getRandomColor = function (array) {
     var x = Math.floor(Math.random() * Math.floor(array.length));
     return array[x];
   };

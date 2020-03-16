@@ -3,8 +3,7 @@
 (function () {
   var MAX_SIMILAR_WIZARD_COUNT = 4;
 
-  var setup = document.querySelector('.setup');
-  var similarList = setup.querySelector('.setup-similar-list');
+  var similarList = window.setup.querySelector('.setup-similar-list');
   var similarWizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
   var similar = document.querySelector('.setup-similar');
 
