@@ -29,13 +29,11 @@
 
   window.wizard.onEyesChange = window.debounce(function (color) {
     eyesColor = color;
-    coatColor = window.wizardCoat.style.fill;
     updateWizards();
   });
 
   window.wizard.onCoatChange = window.debounce(function (color) {
     coatColor = color;
-    eyesColor = window.wizardEyes.style.backgroundColor;
     updateWizards();
   });
 
