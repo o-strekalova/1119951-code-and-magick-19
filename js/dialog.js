@@ -21,17 +21,29 @@
   };
 
   var colorize = function (element, colors, input) {
-    element.addEventListener('click', function () {
-      var color = window.getRandomColor(colors);
-      if (element.tagName.toLowerCase() === 'div') {
-        element.style.backgroundColor = color;
-      } else {
-        element.style.fill = color;
-      }
-      input.value = color;
-      window.wizard.onCoatChange(color);
-      window.wizard.onEyesChange(color);
-    });
+    var color = window.getRandomColor(colors);
+    if (element.tagName.toLowerCase() === 'div') {
+      element.style.backgroundColor = color;
+    } else {
+      element.style.fill = color;
+    }
+    input.value = color;
+  };
+
+  var onCoatClick = function () {
+    colorize(window.wizardCoat, window.WIZARD_COAT_COLORS, coatColorInput);
+    var color = coatColorInput.value;
+    window.wizard.onCoatChange(color);
+  };
+
+  var onEyesClick = function () {
+    colorize(window.wizardEyes, window.WIZARD_EYES_COLORS, eyesColorInput);
+    var color = eyesColorInput.value;
+    window.wizard.onEyesChange(color);
+  };
+
+  var onFireballClick = function () {
+    colorize(wizardFireball, WIZARD_FIREBALL_COLORS, fireballColorInput);
   };
 
   var closePopup = function () {
@@ -41,6 +53,9 @@
     document.removeEventListener('keydown', onPopupEscPress);
     setupClose.removeEventListener('keydown', onCloseEnterPress);
     setupClose.removeEventListener('click', closePopup);
+    window.wizardCoat.removeEventListener('click', onCoatClick);
+    window.wizardEyes.removeEventListener('click', onEyesClick);
+    wizardFireball.removeEventListener('click', onFireballClick);
   };
 
   var onPopupEscPress = function (evt) {
@@ -69,9 +84,9 @@
 
   var openPopup = function () {
     window.setup.classList.remove('hidden');
-    colorize(window.wizardCoat, window.WIZARD_COAT_COLORS, coatColorInput);
-    colorize(window.wizardEyes, window.WIZARD_EYES_COLORS, eyesColorInput);
-    colorize(wizardFireball, WIZARD_FIREBALL_COLORS, fireballColorInput);
+    window.wizardCoat.addEventListener('click', onCoatClick);
+    window.wizardEyes.addEventListener('click', onEyesClick);
+    wizardFireball.addEventListener('click', onFireballClick);
 
     document.addEventListener('keydown', onPopupEscPress);
     setupClose.addEventListener('click', closePopup);
