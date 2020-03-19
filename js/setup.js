@@ -3,9 +3,9 @@
 (function () {
   var MAX_SIMILAR_WIZARD_COUNT = 4;
 
-  var setup = document.querySelector('.setup');
-  var similarListElement = setup.querySelector('.setup-similar-list');
+  var similarList = window.setup.querySelector('.setup-similar-list');
   var similarWizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
+  var similar = document.querySelector('.setup-similar');
 
   var renderWizard = function (wizard) {
     var wizardElement = similarWizardTemplate.cloneNode(true);
@@ -17,15 +17,12 @@
     return wizardElement;
   };
 
-  var onSuccess = function (wizards) {
-    var fragment = document.createDocumentFragment();
-    for (var i = 0; i < MAX_SIMILAR_WIZARD_COUNT; i++) {
-      var wizard = window.random(wizards);
-      fragment.appendChild(renderWizard(wizard));
+  window.render = function (data) {
+    var takeNumber = data.length > MAX_SIMILAR_WIZARD_COUNT ? MAX_SIMILAR_WIZARD_COUNT : data.length;
+    similarList.innerHTML = '';
+    for (var i = 0; i < takeNumber; i++) {
+      similarList.appendChild(renderWizard(data[i]));
     }
-    similarListElement.appendChild(fragment);
-    setup.querySelector('.setup-similar').classList.remove('hidden');
+    similar.classList.remove('hidden');
   };
-
-  window.load(onSuccess, window.onError);
 })();

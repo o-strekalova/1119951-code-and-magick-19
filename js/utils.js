@@ -1,7 +1,15 @@
 'use strict';
 
 (function () {
-  window.random = function (array) {
+  window.WIZARD_COAT_COLORS = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
+  window.WIZARD_EYES_COLORS = ['black', 'red', 'blue', 'yellow', 'green'];
+  window.URL_FOR_LOAD = 'https://js.dump.academy/code-and-magick/data';
+
+  window.setup = document.querySelector('.setup');
+  window.wizardCoat = window.setup.querySelector('.setup-wizard .wizard-coat');
+  window.wizardEyes = window.setup.querySelector('.setup-wizard .wizard-eyes');
+
+  window.getRandomColor = function (array) {
     var x = Math.floor(Math.random() * Math.floor(array.length));
     return array[x];
   };
