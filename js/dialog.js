@@ -15,11 +15,6 @@
   var fireballColorInput = wizardFireball.querySelector('input');
   var form = document.querySelector('.setup-wizard-form');
 
-  window.wizard = {
-    onEyesChange: function () {},
-    onCoatChange: function () {}
-  };
-
   var colorize = function (element, colors, input) {
     var color = window.getRandomColor(colors);
     if (element.tagName.toLowerCase() === 'div') {
